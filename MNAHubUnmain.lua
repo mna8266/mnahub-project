@@ -762,6 +762,65 @@ LocalPlayer.CharacterAdded:Connect(function()
     CleanupAllESP()
 end)
 
+-- FUNÇÃO DE LIMPEZA AO FECHAR
+local function CleanupOnClose()
+    -- Desativar todas as features
+    ToggleNoclip(false)
+    ToggleFly(false)
+    ToggleSpeedHack(false)
+    ToggleGodmode(false)
+    ToggleESP(false)
+    ToggleAimbot(false)
+    ToggleInfiniteJump(false)
+    ToggleFullbright(false)
+    ToggleAntiStun(false)
+    ToggleAntiAFK(false)
+    ToggleTPClick(false)
+    ToggleAutoRejoin(false)
+    ToggleAntiKick(false)
+    ToggleAntiCrash(false)
+    ToggleFPSUnlocker(false)
+    
+    -- Limpar ESP completamente
+    CleanupAllESP()
+    
+    -- Destruir BodyVelocity do Fly
+    if FlyBodyVelocity then
+        pcall(function() FlyBodyVelocity:Destroy() end)
+        FlyBodyVelocity = nil
+    end
+    
+    -- Restaurar o Kick original se AntiKick estiver ativo
+    RestoreKick()
+    
+    -- Desconectar todos os connections
+    if aimbotConnection then
+        aimbotConnection:Disconnect()
+        aimbotConnection = nil
+    end
+    
+    if antiAFKConnection then
+        antiAFKConnection:Disconnect()
+        antiAFKConnection = nil
+    end
+    
+    if antiCrashConnection then
+        antiCrashConnection:Disconnect()
+        antiCrashConnection = nil
+    end
+    
+    -- Limpar stun connections
+    ClearStun()
+    
+    -- Destruir a ScreenGui inteira
+    if ScreenGui then
+        pcall(function() ScreenGui:Destroy() end)
+        ScreenGui = nil
+    end
+    
+    print("MNAHub fechado com sucesso.")
+end
+
 -- UI PRINCIPAL MODERNA
 local function CreateMainUI()
     if isUILoaded then return end
@@ -830,6 +889,26 @@ local function CreateMainUI()
     local MinimizeCorner = Instance.new("UICorner")
     MinimizeCorner.CornerRadius = UDim.new(0, 8)
     MinimizeCorner.Parent = MinimizeBtn
+    
+    -- Botão Fechar
+    local CloseBtn = Instance.new("TextButton")
+    CloseBtn.Size = UDim2.new(0, 40, 0, 40)
+    CloseBtn.Position = UDim2.new(1, -95, 0, 5)
+    CloseBtn.BackgroundColor3 = Color3.fromRGB(80, 50, 50)
+    CloseBtn.Text = "×"
+    CloseBtn.TextColor3 = UISettings.TextColor
+    CloseBtn.TextSize = 28
+    CloseBtn.Font = Enum.Font.GothamBold
+    CloseBtn.BorderSizePixel = 0
+    CloseBtn.Parent = Title
+    
+    local CloseCorner = Instance.new("UICorner")
+    CloseCorner.CornerRadius = UDim.new(0, 8)
+    CloseCorner.Parent = CloseBtn
+    
+    CloseBtn.MouseButton1Click:Connect(function()
+        CleanupOnClose()
+    end)
     
     local Scroll = Instance.new("ScrollingFrame")
     Scroll.Size = UDim2.new(1, -20, 1, -70)
