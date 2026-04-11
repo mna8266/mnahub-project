@@ -29,6 +29,13 @@
 
 ---
 
+## 🔑 Keys Disponíveis
+
+| Key | Status |
+|-----|--------|
+| `MNA2026` | ✅ LIVRE |
+| `FREEKEY` | ✅ LIVRE |
+
 ## 📥 Como Usar
 
 ### 1. Copie o comando abaixo:
