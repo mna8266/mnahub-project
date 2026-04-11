@@ -1,9 +1,9 @@
 --[[
-    MNAHub - Xeno Compatible Version v6.6
+    MNAHub - Xeno Compatible Version v6.7
     Melhorado: UI Moderna, ESP com Cores de Time
 ]]
 
-print("MNAHub v6.6 Iniciando")
+print("MNAHub v6.7 Iniciando")
 
 -- DETECTAR XENO
 local Executor = "Unknown"
@@ -794,7 +794,7 @@ local function CreateMainUI()
     TitleLabel.Size = UDim2.new(0.7, 0, 1, 0)
     TitleLabel.Position = UDim2.new(0, 15, 0, 0)
     TitleLabel.BackgroundTransparency = 1
-    TitleLabel.Text = "MNAHub v6.6"
+    TitleLabel.Text = "MNAHub Universal v6.7"
     TitleLabel.TextColor3 = UISettings.TextColor
     TitleLabel.TextSize = 18
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -1121,7 +1121,7 @@ local function ShowKeyWindow()
     title.Size = UDim2.new(1, 0, 0, 60)
     title.BackgroundColor3 = UISettings.MainColor
     title.BackgroundTransparency = 0.2
-    title.Text = "MNAHub v6.6"
+    title.Text = "MNAHub Universal v6.7"
     title.TextColor3 = UISettings.TextColor
     title.TextSize = 22
     title.Font = Enum.Font.GothamBold
@@ -1135,7 +1135,7 @@ local function ShowKeyWindow()
     sub.Size = UDim2.new(1, 0, 0, 25)
     sub.Position = UDim2.new(0, 0, 0, 60)
     sub.BackgroundTransparency = 1
-    sub.Text = "Executor: " .. Executor .. " | ESP com Cores de Time"
+    sub.Text = "Executor: " .. Executor .. " | ESP and Aimbot update"
     sub.TextColor3 = Color3.fromRGB(180, 180, 200)
     sub.TextSize = 11
     sub.Font = Enum.Font.Gotham
