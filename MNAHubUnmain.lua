@@ -14,7 +14,11 @@ end
 -- KEY SYSTEM
 local Keys = {
     MNA2026 = true,
-    FREEKEY = true
+    FREEKEY = true,
+	["FEIJÃO-COM-FARINHA"] = true,
+    ["67"] = true,
+    NEGONEY = true,
+    BORABILL = true
 }
 
 -- VARIAVEIS
@@ -1189,7 +1193,7 @@ local function ShowKeyWindow()
             return
         end
         
-        if Keys[key] or key == "MNA2026" or key == "FREEKEY" then
+        if Keys[key] then
             status.Text = "✅ Key válida! Carregando..."
             status.TextColor3 = Color3.fromRGB(100, 255, 100)
             AnimateUI(frame, {BackgroundTransparency = 1})
