@@ -24,11 +24,34 @@
 	MNAHub CMD v6.7
 	github.com/mna8266/mnahub-project
 	For Xeno
+	local scripthub
 ]]
 
 if (not game:IsLoaded()) then
 	game.Loaded:Wait();
 end
+
+-- Protege contra loops infinitos comuns
+local OldPrint = print
+print = function(...)
+    local args = {...}
+    for i, v in ipairs(args) do
+        if type(v) == "string" and string.find(v, "crash") then
+            return -- Ignora prints suspeitos
+        end
+    end
+    return OldPrint(...)
+end
+
+-- Previne congelamento da UI
+task.spawn(function()
+    while UI and UI.Parent do
+        task.wait(5) -- Só verifica a cada 5 segundos
+        if game:GetService("CoreGui"):FindFirstChild("ErrorMessage") then
+            game:GetService("CoreGui"):FindFirstChild("ErrorMessage"):Destroy()
+        end
+    end
+end)
 
 local Cmd = (getgenv or function()
 	return (_G)
@@ -1246,6 +1269,7 @@ end)
 Tab.Visible = false
 CommandBar.Actions.Description.Text = Format("Version %s", Settings.Version);
 CommandBar.Visible = false
+
 
 local API = ({});
 local Library = ({ Tabs = {} });
@@ -3298,6 +3322,77 @@ local SetRig = function(Type)
 	Avatar:PromptSaveAvatar(Humanoid.HumanoidDescription, Enum.HumanoidRigType[Type]); CWait(Avatar.PromptSaveAvatarCompleted);
 	Command.Parse(true, "respawn");
 end
+
+-- ========== MNAHub SCRIPT HUB ==========
+local ScriptHub = {
+    { Name = "Solara Hub", Description = "+150 scripts | +500 jogos", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/samuraa1/Solara-Hub/refs/heads/main/SH.lua"))()' },
+    { Name = "Arsenal OP", Description = "Script leve para Arsenal", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/vylerascripts/vylera-scripts/main/arsenal2.lua"))()' },
+    { Name = "Cmd Original", Description = "Script original do lxte", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/main.lua"))()' },
+    { Name = "Piano OP", Description = "Script de piano poderoso", LoadString = 'pcall(function() loadstring(game:HttpGet("https://hellohellohell0.com/talentless-raw/TALENTLESS.lua", true))() end)' },
+    { Name = "Plutonium AA", Description = "Vários scripts para vários jogos", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/PawsThePaw/Plutonium.AA/refs/heads/main/Versions%202/V3.8.0.txt", true))()' },
+    { Name = "Nexus Fruits", Description = "Script leve para Blox Fruits", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/tgferrmonitor/NexusFruitsHub/main/Main.lua"))()' },
+    { Name = "StarHack Piggy", Description = "Script OP para Piggy", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/StarHackScripts/StarHack-Hub-Deepstar-Hub/refs/heads/main/StarHackHub_PiggyV2release"))()' },
+    { Name = "MNAHub", Description = "MNAHub Unmaintained", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/mna8266/mnahub-project/refs/heads/main/MNAHubUnmain.lua"))()' },
+    { Name = "4479Hub", Description = "4479Hub - Blox Fruits", LoadString = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/4479cantcode/4479Hub/refs/heads/main/Script.lua"))()' },
+}
+
+local ScriptHubWindow = nil
+local function OpenScriptHub()
+    if ScriptHubWindow then
+        ScriptHubWindow.Open()
+        return
+    end
+    
+    local Window = Library:CreateWindow({ Title = "MNAHub Scripts" })
+    ScriptHubWindow = Window
+    
+    Window:AddSection({ Title = "📦 SCRIPTS DISPONÍVEIS", Tab = "Home" })
+    
+    for _, Script in ipairs(ScriptHub) do
+        Window:AddButton({
+            Title = Script.Name,
+            Description = Script.Description,
+            Tab = "Home",
+            Callback = function()
+                API:Notify({ Title = "🚀 Carregando", Description = "Executando " .. Script.Name .. "...", Type = "Info", Duration = 3 })
+                pcall(function() loadstring(Script.LoadString)() end)
+            end,
+        })
+    end
+    
+    Window:AddSection({ Title = "ℹ️ INFORMAÇÕES", Tab = "Home" })
+    Window:AddParagraph({
+        Title = "MNAHub Script Hub",
+        Description = "Total de scripts: " .. #ScriptHub .. "\n🔗 Discord: discord.gg/MNAHub",
+        Tab = "Home",
+    })
+end
+
+-- COMANDO scripts (ABRE A ABA)
+Command.Add({
+    Aliases = { "scripts", "hub" },
+    Description = "Abre o MNAHub Script Hub com vários scripts prontos",
+    Arguments = {},
+    Task = function()
+        OpenScriptHub()
+    end,
+})
+
+-- COMANDO exec (roda script direto)
+Command.Add({
+    Aliases = { "exec" },
+    Description = "Executa um script (ex: ;exec solara)",
+    Arguments = { { Name = "nome", Type = "String" } },
+    Task = function(Nome)
+        for _, Script in ipairs(ScriptHub) do
+            if string.lower(Script.Name):find(string.lower(Nome)) then
+                pcall(function() loadstring(Script.LoadString)() end)
+                return "✅ Executado", Script.Name
+            end
+        end
+        return "❌ Erro", "Script não encontrado! Use ;scripts"
+    end,
+})
 
 Command.Add({
 	Aliases = { "settings" },
