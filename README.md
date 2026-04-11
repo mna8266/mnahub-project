@@ -34,4 +34,4 @@
 ### 1. Copie o comando abaixo:
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/seuusuario/MNAHub/main/MNAHub.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/mna8266/mnahub-project/refs/heads/main/MNAHubUnmain.lua"))()
