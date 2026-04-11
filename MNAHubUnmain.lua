@@ -237,7 +237,7 @@ local function DoAimbot()
     if not AimbotSettings.Enabled then return end
     
     local closest = nil
-    local closestDist = 300
+    local closestDist = 800
     
     for _, player in _pairs(Players:GetPlayers()) do
         if IsValidTarget(player) then
