@@ -3394,6 +3394,64 @@ Command.Add({
     end,
 })
 
+-- ========== MNAHub EMOTE LIST ==========
+local Emotes = {
+    { Name = "Jamal Dance", Id = "104131847054135" },
+    { Name = "Paquetá Dance", Id = "88693910954718" },
+    { Name = "Mystery Dance", Id = "125697068936585" },
+    { Name = "Absolute Cinema", Id = "93443778668210" },
+    { Name = "Gangnam Style", Id = "80923445784018" },
+    { Name = "L Dance", Id = "114846964045392" },
+    { Name = "Russian Dance", Id = "74608751145756" },
+    { Name = "Rat Dance", Id = "79460913196046" },
+    { Name = "Popular", Id = "90880350857136" },
+    { Name = "Passinho do Malfalado", Id = "87884932747690" },
+    { Name = "Chinese Dance", Id = "120605439830304" },
+    { Name = "Low Cortisol", Id = "102305896916215" },
+    { Name = "Macarena", Id = "73946479113094" },
+    { Name = "Rampage Dance", Id = "130425635204539" },
+    { Name = "Spongebob", Id = "123043305808890" },
+    { Name = "Aura Fly Pose", Id = "76361248833307" },
+    { Name = "Peaceful Sit", Id = "99169466290816" },
+    { Name = "Jamal Dance 2", Id = "72213123467340" },
+	-- { Name = "Nome do Emote", Id = "ID_DO_EMOTE" }, --- Para novo emote
+}
+
+Command.Add({
+    Aliases = { "emotelist", "elist" },
+    Description = "Shows all emotes and how to use them",
+    Arguments = {},
+    Task = function()
+        local Window = Library:CreateWindow({ Title = "EMOTE LIST" })
+        
+        Window:AddParagraph({
+            Title = "📋 HOW TO USE",
+            Description = "Type in cmd: emote [ID]\nExample: emote 104131847054135\n\nClick any button below to copy the ID!",
+            Tab = "Home",
+        })
+        
+        Window:AddSection({ Title = "🎭 AVAILABLE EMOTES", Tab = "Home" })
+        
+        for _, Emote in ipairs(Emotes) do
+            Window:AddButton({
+                Title = Emote.Name,
+                Description = "ID: " .. Emote.Id,
+                Tab = "Home",
+                Callback = function()
+                    setclipboard(Emote.Id)
+                    API:Notify({
+                        Title = "📋 ID COPIED!",
+                        Description = "Now type in cmd: emote " .. Emote.Id,
+                        Type = "Success",
+                        Duration = 3,
+                    })
+                end,
+            })
+        end
+    end,
+})
+
+
 Command.Add({
 	Aliases = { "settings" },
 	Description = "Opens the Settings Tab that includes options like Waypoints, Events, Themes, Toggles and MORE",
