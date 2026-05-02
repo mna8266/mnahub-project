@@ -1,4 +1,4 @@
-# MNAHub v6.6 - Universal Roblox Script
+# MNAHub v6.7 - Universal Roblox Script
 
 ![Version](https://img.shields.io/badge/version-6.6-brightgreen)
 ![Executor](https://img.shields.io/badge/executor-Xeno%20%7C%20Any-blue)
